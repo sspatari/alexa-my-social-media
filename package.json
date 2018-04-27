@@ -1,0 +1,20 @@
+{
+  "name": "hackx",
+  "version": "1.0.0",
+  "description": "This is the boilerplate as a starting point for developing an alexa skill. Happy coding!",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Spatari Stanislav",
+  "license": "ISC",
+  "homepage": "",
+  "dependencies": {
+    "ask-sdk": "^2.0.1",
+    "serverless": "^1.26.1"
+  }
+}
