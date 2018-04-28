@@ -14,6 +14,21 @@ class Requests {
             return firstPostTitle;
         });
     }
+
+    webhoseio(query, number) {
+        const webhoseio = require('webhoseio');
+
+        const client = webhoseio.config({token: '2b5d099b-2fd5-4a51-a9c8-b3a7ad8d7426'});
+        const query_params = {
+            "q": `title:\"${query}\" -text:\"${query}\" language:english`,
+            "sort": "relevancy"
+        }
+        client.query('filterWebContent', query_params)
+        .then(output => {
+            console.log(output['posts'][number]['text']); // Print the text of the first post
+            console.log(output['posts'][number]['published']); // Print the text of the first post publication date
+        });
+    }
 }
 
 export default Requests;
