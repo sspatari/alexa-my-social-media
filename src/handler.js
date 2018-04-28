@@ -1,6 +1,4 @@
-'use strict';
-
-const Alexa = require('ask-sdk');
+import * as Alexa from 'ask-sdk';
 
 const LaunchRequestHandler = {
 
