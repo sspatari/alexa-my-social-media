@@ -1,4 +1,5 @@
 import * as Alexa from 'ask-sdk';
+import Requests from './requests';
 
 const LaunchRequestHandler = {
 
@@ -48,20 +49,26 @@ const CancelAndStopIntentHandler = {
     }
 };
 
-const GetLastSocialMediaUpdatesIntentHandler = {
+const GetLastSocialMediaUpdateIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
-    return (request.type === 'IntentRequest' && request.intent.name === 'GetLastSocialMediaUpdatesIntent');
+    return (request.type === 'IntentRequest' && request.intent.name === 'GetLastSocialMediaUpdateIntent');
   },
   handle(handlerInput) {
-
-    const speechText = 'Getting Last Reddit updates';
-
-    return handlerInput.responseBuilder
-            .speak(speechText)
-            .reprompt(speechText)
-            .withSimpleCard('Getting Last Reddit updates', speechText)
-            .getResponse();
+    let requests = new Requests();
+    return new Promise((resolve, reject) => {
+      requests.redditTIL()
+              .then((speechText) => {
+                resolve(handlerInput.responseBuilder
+                        .speak(speechText)
+                        .reprompt(speechText)
+                        .withSimpleCard('Getting Last Reddit updates', speechText)
+                        .getResponse());
+              })
+              .catch((error) => {
+              	reject(error);
+              });
+    });
   }
 };
 
@@ -86,7 +93,7 @@ exports.main = skillBuilder
     LaunchRequestHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
-    GetLastSocialMediaUpdatesIntentHandler
+    GetLastSocialMediaUpdateIntentHandler
   )
   .addErrorHandlers(ErrorHandler)
   .lambda();
