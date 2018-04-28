@@ -25,8 +25,7 @@ class Requests {
         }
         client.query('filterWebContent', query_params)
         .then(output => {
-            console.log(output['posts'][number]['text']); // Print the text of the first post
-            console.log(output['posts'][number]['published']); // Print the text of the first post publication date
+            return output['posts'][number]['text'] + ' ' + output['posts'][number]['published'];
         });
     }
 }
