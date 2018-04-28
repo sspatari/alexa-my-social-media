@@ -20,7 +20,9 @@
   "dependencies": {
     "ask-sdk": "^2.0.1",
     "request": "^2.85.0",
-    "serverless": "^1.26.1"
+    "rss-to-json": "^1.0.4",
+    "serverless": "^1.26.1",
+    "webhoseio": "^1.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
