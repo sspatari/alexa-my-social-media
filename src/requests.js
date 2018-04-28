@@ -34,25 +34,15 @@ class Requests {
         
     }
 	
-     forums(query, number) {
+     forums(number) {
         return new Promise((resolve, reject) => {
-            	
-		Feed.load('https://forum.electricunicycle.org/discover/all.xml/', function(err, rss){
-	//Feed.load('https://forum.electricunicycle.org/discover/5.xml/?member=6847&key=8e3835fe2723e4943fc3177616ff83e7', function(err, rss){
-	  //sconsole.log(rss);
-	  console.log(rss.items[number].title);
-	  console.log(rss.items[number].description);
-	   resolve(rss.items[number].title + ' ' + rss.items[number].description);
-
-	});
-	
-			
-        });
-        
-        
+            Feed.load('https://forum.electricunicycle.org/discover/all.xml/', function(err, rss){
+            //Feed.load('https://forum.electricunicycle.org/discover/5.xml/?member=6847&key=8e3835fe2723e4943fc3177616ff83e7', function(err, rss){
+            //sconsole.log(rss);
+            resolve(rss.items[number].title + ' ' + rss.items[number].description);
+            });
+        });  
     }
-
-
 }
 
 export default Requests;
