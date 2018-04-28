@@ -1,4 +1,5 @@
 import request from 'request';
+import Feed from 'rss-to-json';
 
 class Requests {
     constructor() {
@@ -13,7 +14,7 @@ class Requests {
             reject(`GET failed, ${err}`);
           else {
             let children = JSON.parse(body).data.children;
-            let firstPostTitle = children[postNumber].data.title.slice(4);
+            let firstPostTitle = 'Today I learned ' + children[postNumber].data.title.slice(4);
             resolve(firstPostTitle);
           }
         });
@@ -34,8 +35,18 @@ class Requests {
                 resolve(output['posts'][number]['text'] + ' ' + output['posts'][number]['published']);
             });
         });
-        
-        
+
+
+    }
+
+     forums(number) {
+        return new Promise((resolve, reject) => {
+            Feed.load('https://forum.electricunicycle.org/discover/all.xml/', function(err, rss){
+            //Feed.load('https://forum.electricunicycle.org/discover/5.xml/?member=6847&key=8e3835fe2723e4943fc3177616ff83e7', function(err, rss){
+            //sconsole.log(rss);
+            resolve(rss.items[number].title + ' ' + rss.items[number].description);
+            });
+        });
     }
 }
 
