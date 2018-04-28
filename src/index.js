@@ -2,4 +2,6 @@ import Requests from './requests';
 
 let requests = new Requests();
 requests.redditTIL();
-requests.webhoseio('amazon alexa', 0)
+requests.webhoseio('google', 0).then((text) => {
+    console.log(text);
+})
