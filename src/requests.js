@@ -16,7 +16,7 @@ class Requests {
             let children = JSON.parse(body).data.children;
             let firstPostTitle = 'Today I learned ' + children[postNumber].data.title.slice(4);
             resolve(firstPostTitle);
-
+          }
         });
       });
     }
