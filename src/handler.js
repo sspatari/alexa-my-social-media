@@ -6,33 +6,63 @@ const LaunchRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speechText = 'Welcome to the HackXVoice';
+        const speechText = 'Welcome to your personal social media updates. Please choose which updates you want to hear';
 
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
             .withSimpleCard('Hello World', speechText)
             .getResponse();
-    },
-
-
+    }
 };
 
-const HelloWorldHandler = {
-  canHandle(handlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return (request.type === 'IntentRequest' && request.intent.name === 'HelloWorldIntent');
-  },
-  handle(handlerInput) {
+const HelpIntentHandler = {
+    canHandle(handlerInput) {
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
+    },
+    handle(handlerInput) {
+        const speechText = 'You can say hello to me!';
 
-    const speechText = 'Hello World!';
-
-    return handlerInput.responseBuilder
+        return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
             .withSimpleCard('Hello World', speechText)
             .getResponse();
+    }
+};
+
+const CancelAndStopIntentHandler = {
+    canHandle(handlerInput) {
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
+                || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
+    },
+    handle(handlerInput) {
+        const speechText = 'Goodbye! Have a nice day!';
+
+        return handlerInput.responseBuilder
+            .speak(speechText)
+            .withSimpleCard('Hello World', speechText)
+            .getResponse();
+    }
+};
+
+const GetLastSocialMediaUpdatesIntentHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return (request.type === 'IntentRequest' && request.intent.name === 'GetLastSocialMediaUpdatesIntent');
   },
+  handle(handlerInput) {
+
+    const speechText = 'Getting Last Reddit updates';
+
+    return handlerInput.responseBuilder
+            .speak(speechText)
+            .reprompt(speechText)
+            .withSimpleCard('Getting Last Reddit updates', speechText)
+            .getResponse();
+  }
 };
 
 const ErrorHandler = {
@@ -46,7 +76,7 @@ const ErrorHandler = {
       .speak('Sorry, I can\'t understand the command. Please say again.')
       .reprompt('Sorry, I can\'t understand the command. Please say again.')
       .getResponse();
-  },
+  }
 };
 
 const skillBuilder = Alexa.SkillBuilders.custom();
@@ -54,7 +84,9 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 exports.main = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler,
-    HelloWorldHandler
+    HelpIntentHandler,
+    CancelAndStopIntentHandler,
+    GetLastSocialMediaUpdatesIntentHandler
   )
   .addErrorHandlers(ErrorHandler)
   .lambda();
