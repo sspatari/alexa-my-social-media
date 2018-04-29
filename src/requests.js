@@ -1,5 +1,6 @@
 import request from 'request';
 import Feed from 'rss-to-json';
+import webhoseio from 'webhoseio';
 
 class Requests {
     constructor() {
@@ -21,10 +22,8 @@ class Requests {
       });
     }
 
-    webhoseio(query, number) {
+    webhose(query, number) {
         return new Promise((resolve, reject) => {
-            const webhoseio = require('webhoseio');
-
             const client = webhoseio.config({token: '2b5d099b-2fd5-4a51-a9c8-b3a7ad8d7426'});
             const query_params = {
                 "q": `title:\"${query}\" -text:\"${query}\" language:english`,

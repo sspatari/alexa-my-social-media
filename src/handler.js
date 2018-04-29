@@ -51,7 +51,7 @@ const CancelAndStopIntentHandler = {
 const GetLastSocialMediaUpdateIntentHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
-    if(request.intent.slots !== undefined){
+    if(request.intent['slots'] !== undefined){
       let attributes = {'currentSocialMedia': request.intent.slots.socialMediaName.value};
       handlerInput.attributesManager.setSessionAttributes(attributes);
     }
@@ -68,7 +68,9 @@ const GetLastSocialMediaUpdateIntentHandler = {
       if(handlerInput.attributesManager.getSessionAttributes().currentSocialMedia === 'reddit'){
         socialMediaStringPromise = requests.redditTIL(0);
       } else if(handlerInput.attributesManager.getSessionAttributes().currentSocialMedia === 'forum'){
-        socialMediaStringPromise = requests.webhoseio('moldova', 0);
+        socialMediaStringPromise = requests.forums(0);
+      } else if(handlerInput.attributesManager.getSessionAttributes().currentSocialMedia === 'twitter'){
+        socialMediaStringPromise = requests.webhose('twitter', 0);
       }
       socialMediaStringPromise
               .then((speechText) => {
@@ -94,7 +96,15 @@ const GetNextSocialMediaUpdateIntentHandler = {
     let requests = new Requests();
     return new Promise((resolve, reject) => {
       let attributes = handlerInput.attributesManager.getSessionAttributes();
-      requests.redditTIL(++attributes['currentPostNumber'])
+      let socialMediaStringPromise;
+      if(handlerInput.attributesManager.getSessionAttributes().currentSocialMedia === 'reddit'){
+        socialMediaStringPromise = requests.redditTIL(++attributes['currentPostNumber']);
+      } else if(handlerInput.attributesManager.getSessionAttributes().currentSocialMedia === 'forum'){
+        socialMediaStringPromise = requests.forums(++attributes['currentPostNumber']);
+      } else if(handlerInput.attributesManager.getSessionAttributes().currentSocialMedia === 'twitter'){
+        socialMediaStringPromise = requests.webhose('twitter', ++attributes['currentPostNumber']);
+      }
+      socialMediaStringPromise
               .then((speechText) => {
                 resolve(handlerInput.responseBuilder
                         .speak(speechText)

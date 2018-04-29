@@ -2,7 +2,7 @@ import Requests from './requests';
 
 let requests = new Requests();
 // requests.redditTIL(0);
-requests.webhoseio('moldova', 0).then((text) => {
+requests.webhose('moldova', 0).then((text) => {
     console.log(text);
 })
 
